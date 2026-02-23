@@ -6,7 +6,7 @@ It normalizes the barcode by trimming whitespace and removing spaces/hyphens.
 If the normalized barcode already exists, it updates the linked product's name and description (if provided).
 If the barcode does not exist, it creates a new product and links it to the barcode. */
 
-/* Note: VERSION 1 : not yet handeling duplicate key violations */
+/* Note: not yet handeling duplicate key violations */
 
 CREATE OR REPLACE FUNCTION dirac.ingest_product(
   p_barcode text,
@@ -21,7 +21,7 @@ DECLARE
   v_product_id bigint;
   v_row dirac.product;
 BEGIN
-  /* normalize (trim + remove spaces/hyphens) */
+  /* normalize (trim whitespace + remove spaces/hyphens) */
   v_barcode := NULLIF(regexp_replace(btrim(p_barcode), '[\s-]+', '', 'g'), '');
 
   IF v_barcode IS NULL THEN
