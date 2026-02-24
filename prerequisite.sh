@@ -23,4 +23,8 @@
 ## Inspect the current table 
 >> docker compose exec db psql -U postgres -d barcode_db -c "\d+ dirac.product"
 
+## How to run seed_products.sql to insert sample data into the database
+>> Get-Content .\seed_products.sql -Raw | docker compose exec -T db psql -U postgres -d barcode_db
 
+## How I piped this output to a file for the write-up
+>> Get-Content .\db\seed_products.sql -Raw |  docker compose exec -T db psql -U postgres -d barcode_db `  | Tee-Object -FilePath .\seed_run_output.txt
